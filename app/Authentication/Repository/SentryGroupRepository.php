@@ -25,6 +25,8 @@ class SentryGroupRepository implements BaseRepositoryInterface
     {
         $this->sentry = App::make('sentry');
         $this->config_reader = $config_reader ? $config_reader : App::make('config');
+
+        return parent::__construct( $this->sentry->getGroupProvider()->createModel() );
     }
 
     /**
@@ -95,7 +97,7 @@ class SentryGroupRepository implements BaseRepositoryInterface
      */
     public function all(array $search_filters = [])
     {
-        $q = new Group;
+        $q = $this->sentry->getGroupProvider()->createModel();
         $q = $this->applySearchFilters($search_filters, $q);
 
         $results_per_page = $this->config_reader->get('acl_base.groups_per_page');

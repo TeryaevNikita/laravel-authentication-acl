@@ -29,10 +29,14 @@ class SentryUserRepository extends EloquentBaseRepository implements UserReposit
      */
     protected $sentry;
 
+    protected $groupModel = NULL;
+
     public function __construct()
     {
         $this->sentry = App::make('sentry');
-        return parent::__construct(new User);
+        $this->groupModel = $this->sentry->getGroupProvider();
+
+        return parent::__construct( $this->sentry->getUserProvider()->createModel() );
     }
 
     /**
@@ -110,8 +114,10 @@ class SentryUserRepository extends EloquentBaseRepository implements UserReposit
     {
         try
         {
-            $group = Group::findOrFail($group_id);
-            $user = User::findOrFail($user_id);
+            $group = $this->groupModel->createModel();
+            $group = $group->findOrFail($group_id);
+            $user = $this->find($user_id);
+
             $user->addGroup($group);
         } catch(ModelNotFoundException $e)
         {
@@ -129,8 +135,9 @@ class SentryUserRepository extends EloquentBaseRepository implements UserReposit
     {
         try
         {
-            $group = Group::findOrFail($group_id);
-            $user = User::findOrFail($user_id);
+            $group = $this->groupModel->createModel();
+            $group = $group->findOrFail($group_id);
+            $user = $this->find($user_id);
             $user->removeGroup($group);
         } catch(ModelNotFoundException $e)
         {

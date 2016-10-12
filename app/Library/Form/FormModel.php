@@ -50,6 +50,16 @@ class FormModel implements FormInterface{
      */
     public function process(array $input)
     {
+        try{
+            $model = $this->r->getModel();
+            $table_name = (new $model)->getTable();
+            if ($table_name) {
+                $input['_table_name'] = $table_name;
+            }
+        } catch (\Exception $e) {
+
+        }
+
         if($this->v->validate($input))
         {
             Event::fire("form.processing", array($input));
