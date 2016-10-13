@@ -10,8 +10,9 @@ use LaravelAcl\Authentication\Models\Group;
 use LaravelAcl\Authentication\Exceptions\UserNotFoundException as NotFoundException;
 use App, Event;
 use Cartalyst\Sentry\Groups\GroupNotFoundException;
+use LaravelAcl\Library\Repository\EloquentBaseRepository;
 
-class SentryGroupRepository implements BaseRepositoryInterface
+class SentryGroupRepository extends EloquentBaseRepository implements BaseRepositoryInterface
 {
     /**
      * Sentry instance

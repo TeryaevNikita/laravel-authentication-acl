@@ -7,6 +7,7 @@ use LaravelAcl\Authentication\Exceptions\ProfileNotFoundException;
 use LaravelAcl\Authentication\Repository\Interfaces\UserProfileRepositoryInterface;
 use LaravelAcl\Library\Repository\EloquentBaseRepository;
 use LaravelAcl\Library\Repository\Interfaces\BaseRepositoryInterface;
+use App;
 
 /**
  * Class EloquentUserProfileRepository
